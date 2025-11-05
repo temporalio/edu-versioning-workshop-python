@@ -8,7 +8,17 @@
         }
     },
     "forwardPorts": [8080, 7233],
+    "portsAttributes": {
+        "8080": {
+            "label": "Temporal UI",
+            "onAutoForward": "openBrowser"
+        },
+        "7233": {
+            "label": "Temporal Server"
+        }
+    },
     "postCreateCommand": "python3 -m venv .env && bash -c 'source .env/bin/activate && python3 -m pip install -r requirements.txt' && echo 'source /workspaces/edu-versioning-workshop-python/.env/bin/activate' >> ~/.bashrc",
+    "postStartCommand": "nohup temporal server start-dev --ui-port 8080 > /tmp/temporal.log 2>&1 &",
     "remoteEnv": {
         "PROMPT_DIRTRIM": "2"
     }
