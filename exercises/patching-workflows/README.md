@@ -20,14 +20,16 @@ course is activated as detailed in the course [README](../../README.md#setup-you
 
 ## Part A: Run a Workflow to Completion
 
-1. Run `python worker.py` in a terminal to start a Worker
-2. Run `python starter.py a100` in another terminal. This will start a Workflow 
+1. Start the Temporal Server with `temporal server start-dev`
+   - On the Exercise Environment, click `ports`, find Port 8233, and click the Globe icon to open the Web UI.
+2. Run `python worker.py` in a terminal to start a Worker
+3. Run `python starter.py a100` in another terminal. This will start a Workflow 
     that processes the loan for customer ID `a100`.
-3. Let this Workflow run to completion. This customer has a loan 
+4. Let this Workflow run to completion. This customer has a loan 
    with 10 payments, and since the Workflow in this exercise uses 
    a Timer to add a three-second delay between each payment, it 
    should complete within 30 seconds.
-4. You will now download the history of this execution in JSON
+5. You will now download the history of this execution in JSON
    format so that you can replay it in an automated test that you
    will develop later in this exercise. Open the Web UI (if you are
    running a local dev cluster, it will be running at
@@ -47,15 +49,15 @@ course is activated as detailed in the course [README](../../README.md#setup-you
         --workflow-id loan-processing-workflow-customer-a100 \
         --output json > history_for_original_execution.json
    ```
-5. In the next section, you will make and deploy an incompatible 
+6. In the next section, you will make and deploy an incompatible 
    change, causing a non-deterministic error for an open execution.
    To allow time for you to do these things, edit the `workflow.py` file and 
    change the duration in the `await asyncio.sleep(3)` call from 3 seconds to 90 seconds.
-6. Save your change to the `workflow.py` file and exit the editor
-7. Restart the Worker by pressing Ctrl-C in the terminal window
+7. Save your change to the `workflow.py` file and exit the editor
+8. Restart the Worker by pressing Ctrl-C in the terminal window
    from step 1 and running the `python worker.py` command again
-8. Run the Workflow again: `python starter.py a100`
-9. Use the Web UI to verify that the Workflow Execution from the 
+9. Run the Workflow again: `python starter.py a100`
+10. Use the Web UI to verify that the Workflow Execution from the 
    previous step is running before proceeding with the next part
    of this exercise.
 

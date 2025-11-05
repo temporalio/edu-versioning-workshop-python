@@ -15,13 +15,15 @@ the complete version in the `solution` subdirectory.
 
 ## Part A: Configure a Worker for Versioning and Mark a Workflow as Pinned
 
-1. Edit the `worker.py` file. This file contains a Temporal Worker that
+1. Start the Temporal Server with `temporal server start-dev`
+   - On the Exercise Environment, click `ports`, find Port 8233, and click the Globe icon to open the Web UI.
+2. Edit the `worker.py` file. This file contains a Temporal Worker that
    looks and behaves the same as a Worker without Worker Versioning enabled,
    with the exception of some additional parameters provided to
    `deployment_config`. Of these, `use_worker_versioning=True` should always be enabled
    to use Worker Versioning, and `deployment_name`, `build_id`, and
    `default_versioning_behavior` should be configured every time.
-2. For this Exercise, you do not need to edit `deployment_name`, which has been
+3. For this Exercise, you do not need to edit `deployment_name`, which has been
    set to `"worker_versioning_demo"`, a descriptive name. You need to assign a
    `build_id`, which should be a version string like `"1.0"`, and a
    `default_versioning_behavior`, which can be
@@ -30,13 +32,13 @@ the complete version in the `solution` subdirectory.
    Workflows handled by this Worker will default to automatically running on
    your newest code revision, or will remain Pinned until being migrated
    manually. For now, set it to `VersioningBehavior.PINNED`.
-3. Start your Worker by running `python worker.py`. You should receive
+4. Start your Worker by running `python worker.py`. You should receive
    output containing your Build ID:
 
    ```
    2025/07/22 14:33:23 INFO  Started Worker Namespace default TaskQueue loan-processing-workflow-taskqueue WorkerID 80416@Kavorka.local@ BuildID 1.0
    ```
-4. In another terminal, run `temporal worker deployment describe --name="worker_versioning_demo"` to get some metadata returned from your running Worker. This should also return your Build ID:
+5. In another terminal, run `temporal worker deployment describe --name="worker_versioning_demo"` to get some metadata returned from your running Worker. This should also return your Build ID:
    
    ```
    Worker Deployment:
@@ -47,7 +49,7 @@ the complete version in the `solution` subdirectory.
          DeploymentName      BuildId  DrainageStatus    CreateTime
      worker_versioning_demo  1.0      unspecified     17 seconds ago
    ```
-5. Set the current version to this first BuildId using the
+6. Set the current version to this first BuildId using the
    `temporal worker deployment set-current-version` command, like so:
 
    ```
@@ -55,7 +57,7 @@ the complete version in the `solution` subdirectory.
        --deployment-name "worker_versioning_demo" \
        --build-id "1.0"
    ```
-6. Next, kick off a Workflow by running `python starter.py a100`. You can
+7. Next, kick off a Workflow by running `python starter.py a100`. You can
    check the Temporal Web UI to ensure that it is running normally.
 
 ## Part B: Move a Pinned Workflow to a new Version
